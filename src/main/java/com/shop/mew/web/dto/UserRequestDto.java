@@ -32,4 +32,23 @@ public class UserRequestDto {
             this.password = password;
         }
     }
+
+    @Getter
+    @NoArgsConstructor
+    public static class Find {
+
+        @NotBlank
+        @Length(max = 50)
+        private String name;
+
+        @Email
+        @Length(max = 50)
+        private String email;
+
+        @Builder
+        public Find(String name, String email) {
+            this.name = name;
+            this.email = email;
+        }
+    }
 }

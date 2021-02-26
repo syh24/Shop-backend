@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/images/**", "/js/**", "/h2-console/**", "/api/v1/category").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/user", "/api/v1/authentication").permitAll()
                 .antMatchers("/api/v1/profile/**", "/api/v1/user/**").permitAll()//hasAnyRole(Role.ADMIN.name(), Role.USER.name())
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .logout()
                 .logoutSuccessUrl("/");

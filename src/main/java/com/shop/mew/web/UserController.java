@@ -23,6 +23,12 @@ public class UserController {
         return ResponseEntity.ok("회원 가입 성공");
     }
 
+    //비밀번호 찾기
+    @PostMapping("/password")
+    public String findPassword(@Valid @RequestBody UserRequestDto.Find userRequestDto) {
+        return userService.findPassword(userRequestDto);
+    }
+
     //회원 프로필 조회
     @GetMapping("/user/{id}")
     public UserResponseDto.Profile getProfile(@PathVariable("id") Long id){
