@@ -2,7 +2,7 @@
 
 ### 개발 스펙
 * Java 11
-* Gradle 4.10.2
+* Gradle 6.8.2
 * Spring Boot 2.4.3
 
 ### 사용 기술
