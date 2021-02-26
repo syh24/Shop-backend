@@ -22,9 +22,6 @@ public class UserService {
                 .name(userRequestDto.getName())
                 .email(userRequestDto.getEmail())
                 .password(userRequestDto.getPassword())
-                .birth(userRequestDto.getBirth())
-                .address(userRequestDto.getAddress())
-                .agreeMessageByEmail(userRequestDto.isAgreeMessageByEmail())
                 .role(Role.USER)
                 .build());
     }

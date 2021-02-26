@@ -1,6 +1,7 @@
 package com.shop.mew.domain.user;
 
 import com.shop.mew.domain.BaseTimeEntity;
+import com.shop.mew.web.dto.UserResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,5 +46,15 @@ public class User extends BaseTimeEntity {
         this.address = address;
         this.agreeMessageByEmail = agreeMessageByEmail;
         this.role = role;
+    }
+
+    public UserResponseDto.Profile toUserProfile(User user){
+        return UserResponseDto.Profile.builder()
+                .name(user.getName())
+                .email(user.getEmail())
+                .birth(user.getBirth())
+                .agreeMessageByEmail(user.isAgreeMessageByEmail() ? "YES" : "NO")
+                .address(user.getAddress())
+                .build();
     }
 }
