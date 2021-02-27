@@ -2,6 +2,7 @@ package com.shop.mew.domain.user;
 
 import com.shop.mew.domain.BaseTimeEntity;
 import com.shop.mew.domain.cart.Cart;
+import com.shop.mew.domain.orderitem.OrderItem;
 import com.shop.mew.domain.review.Review;
 import com.shop.mew.web.dto.UserResponseDto;
 import lombok.Builder;
@@ -44,6 +45,8 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<Review> reviews = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     @Builder
     public User(Long id, String name, String email,
