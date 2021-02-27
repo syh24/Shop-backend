@@ -97,6 +97,7 @@ class UserControllerTest {
                 .andReturn();
     }
 
+
     public UserRequestDto.Join userValidJoinRequest() {
         return UserRequestDto.Join.builder()
                 .name("Test")

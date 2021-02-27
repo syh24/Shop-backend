@@ -1,6 +1,8 @@
 package com.shop.mew.domain.user;
 
 import com.shop.mew.domain.BaseTimeEntity;
+import com.shop.mew.domain.cart.Cart;
+import com.shop.mew.domain.review.Review;
 import com.shop.mew.web.dto.UserResponseDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +10,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -15,6 +19,7 @@ import java.time.LocalDate;
 public class User extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
     @Column(nullable = false)
@@ -32,6 +37,13 @@ public class User extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Cart> carts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews = new ArrayList<>();
+
 
     @Builder
     public User(Long id, String name, String email,
