@@ -27,4 +27,10 @@ public class ItemController {
         Item item = itemService.updateItem(id,itemRequestDto);
         return item;
     }
+
+    @PutMapping("/item/{id}")
+    public ResponseEntity<?> deleteItem (@PathVariable("id") Long id){
+        itemService.deleteItem(id);
+        return ResponseEntity.ok("상품 삭제 완료");
+    }
 }

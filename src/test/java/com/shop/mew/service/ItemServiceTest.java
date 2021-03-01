@@ -15,7 +15,6 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-@Rollback(value = false)
 class ItemServiceTest {
 
     @Autowired
@@ -32,9 +31,7 @@ class ItemServiceTest {
                 .build();
 
         itemService.addItem(item);
-        List<Item> result = itemService.findAll();
-        for (Item item1 : result) {
-            System.out.println("item1 = " + item1.getPrice());
-        }
+        assertThat(itemService.findAll().size()).isEqualTo(1);
+        assertThat(itemService.findAll().get(0).getName()).isEqualTo(item.getName());
     }
 }

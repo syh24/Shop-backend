@@ -43,4 +43,9 @@ public class ItemService {
         item.update(item, itemRequestDto);
         return item;
     }
+
+    @Transactional
+    public void deleteItem (Long id){
+        itemRepository.deleteById(id);
+    }
 }
