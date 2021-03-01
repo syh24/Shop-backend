@@ -39,24 +39,20 @@ public class Item extends BaseTimeEntity {
     @OneToMany(mappedBy = "item")
     private List<Cart> carts = new ArrayList<>();
 
+    @ColumnDefault("0")
     private Integer rate; //평점
 
     @Builder
-
     public Item(Long id, String name,
                 String category,
                 Integer price,
                 Integer count,
-                String img,
-                List<Review> reviews,
-                Integer rate) {
+                String img) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.price = price;
         this.count = count;
         this.img = img;
-        this.reviews = reviews;
-        this.rate = rate;
     }
 }

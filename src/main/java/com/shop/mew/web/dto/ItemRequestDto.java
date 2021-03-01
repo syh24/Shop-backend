@@ -1,17 +1,14 @@
 package com.shop.mew.web.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
 @Getter
 public class ItemRequestDto {
 
-    @Getter
     @NoArgsConstructor
+    @Data
     public static class Register {
         @NotBlank
         private String name;

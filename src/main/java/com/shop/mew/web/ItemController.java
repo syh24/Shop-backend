@@ -24,4 +24,5 @@ public class ItemController {
         itemService.addItem(itemRequestDto);
         return ResponseEntity.ok("상품 등록 완료");
     }
+
 }
