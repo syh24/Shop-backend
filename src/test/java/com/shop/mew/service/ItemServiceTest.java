@@ -18,7 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class ItemServiceTest {
 
-    @Autowired private ItemService itemService;
+    @Autowired
+    private ItemService itemService;
 
     @Test
     @Commit
@@ -35,7 +36,7 @@ class ItemServiceTest {
 
         itemService.addItem(item);
 
-       // assertThat(itemService.findAll().get(0).getName()).isEqualTo("test");
+        assertThat(itemService.findAll().get(0).getName()).isEqualTo("test");
 
     }
 
