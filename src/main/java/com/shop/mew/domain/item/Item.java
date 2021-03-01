@@ -3,6 +3,7 @@ package com.shop.mew.domain.item;
 import com.shop.mew.domain.BaseTimeEntity;
 import com.shop.mew.domain.cart.Cart;
 import com.shop.mew.domain.review.Review;
+import com.shop.mew.web.dto.ItemRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,5 +55,13 @@ public class Item extends BaseTimeEntity {
         this.price = price;
         this.count = count;
         this.img = img;
+    }
+
+    public void update (Item items, ItemRequestDto.Update item){
+        items.name = item.getName();
+        items.category = item.getCategory();
+        items.price = item.getPrice();
+        items.count = item.getCount();
+        items.img = item.getImg();
     }
 }
