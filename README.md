@@ -42,3 +42,6 @@
   * 상품 평점
     * 상품을 구매한 유저들의 리뷰에 적용된 평점을 평균내어 저장
       * 상품 리뷰 추가 시 평균내어 상품 테이블에 저장
+
+### ERD
+![image](https://user-images.githubusercontent.com/64251594/111596653-b99f2100-8810-11eb-9f6b-637d57a2c7c9.png)
