@@ -47,7 +47,7 @@ public class ItemService {
     }
 
     @Transactional
-    public boolean deleteItem(Long id) {
+    public Boolean deleteItem(Long id) {
         try {
             itemRepository.deleteById(id);
         } catch (Exception e) {

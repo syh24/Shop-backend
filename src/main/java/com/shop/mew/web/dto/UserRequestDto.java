@@ -1,54 +1,30 @@
 package com.shop.mew.web.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-
-@Builder
-@Getter
+@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserRequestDto {
 
-    @Getter
-    @NoArgsConstructor
-    public static class Join {
-        @NotBlank
-        @Length(max = 50)
-        private String name;
 
-        @Email
-        @Length(max = 50)
-        private String email;
+    @ApiModelProperty (value = "이름", required = true)
+    private String name;
 
-        @NotBlank
-        @Length(max = 50)
-        private String password;
+    @ApiModelProperty (value = "로그인 이메일", required = true)
+    private String email;
 
-        @Builder
-        public Join(String name, String email, String password) {
-            this.name = name;
-            this.email = email;
-            this.password = password;
-        }
-    }
+    @ApiModelProperty (value = "로그인 비밀번호", required = true)
+    private String password;
 
-    @Getter
-    @NoArgsConstructor
-    public static class Find {
+    @ApiModelProperty (value = "주소", required = true)
+    private String address;
 
-        @NotBlank
-        @Length(max = 50)
-        private String name;
-
-        @Email
-        @Length(max = 50)
-        private String email;
-
-        @Builder
-        public Find(String name, String email) {
-            this.name = name;
-            this.email = email;
-        }
+    @Builder
+    public UserRequestDto (String name,String email,String password,String address){
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.address = address;
     }
 }

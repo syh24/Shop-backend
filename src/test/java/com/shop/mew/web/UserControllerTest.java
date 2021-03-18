@@ -71,7 +71,7 @@ class UserControllerTest {
     void 회원가입() throws Exception {
 
         //given
-        UserRequestDto.Join userRequestDto = userValidJoinRequest();
+        UserRequestDto userRequestDto = userValidJoinRequest();
         String url = "http://localhost:" + port + "/api/v1/user";
         //when
         MvcResult result = mvc.perform(post(url)
@@ -87,7 +87,7 @@ class UserControllerTest {
     void 회원가입_실패() throws Exception {
 
         //given
-        UserRequestDto.Join userRequestDto = userInValidJoinRequest();
+        UserRequestDto userRequestDto = userInValidJoinRequest();
         String url = "http://localhost:" + port + "/api/v1/user";
         //when
         MvcResult result = mvc.perform(post(url)
@@ -97,17 +97,38 @@ class UserControllerTest {
                 .andReturn();
     }
 
+    @Test
+    void 회원중복_테스트 () throws Exception{
+        UserRequestDto user1 = userValidJoinRequest();
+        UserRequestDto user2 = userValidJoinRequest();
+        String url = "http://localhost:" + port + "/api/v1/user";
+        //when
+        MvcResult result1 = mvc.perform(post(url)
+                .contentType(APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(user1)))
+                .andExpect(status().isOk())
+                .andReturn();
 
-    public UserRequestDto.Join userValidJoinRequest() {
-        return UserRequestDto.Join.builder()
+        assertThat(result1.getResponse().getContentAsString()).isEqualTo("회원 가입 성공");
+
+        MvcResult result2 = mvc.perform(post(url)
+                .contentType(APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(user2)))
+                .andExpect(status().is5xxServerError())
+                .andReturn();
+    }
+
+
+    public UserRequestDto userValidJoinRequest() {
+        return UserRequestDto.builder()
                 .name("Test")
                 .email("Test@naver.com")
                 .password("1234")
                 .build();
     }
 
-    public UserRequestDto.Join userInValidJoinRequest() {
-        return UserRequestDto.Join.builder()
+    public UserRequestDto userInValidJoinRequest() {
+        return UserRequestDto.builder()
                 .name("Test")
                 .email("Test@naver.com")
                 .password("")
