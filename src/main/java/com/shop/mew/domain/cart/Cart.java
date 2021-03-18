@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static javax.persistence.FetchType.*;
 
 @Getter
@@ -21,11 +24,10 @@ public class Cart extends BaseTimeEntity {
 
     private Integer count;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "item_id")
-    private Item item;
+    @OneToMany
+    private List<Item> items = new ArrayList<>();
 
-    @ManyToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -33,4 +35,17 @@ public class Cart extends BaseTimeEntity {
     @JoinColumn(name = "orderitem_id")
     private OrderItem orderItem;
 
+    public void orderCount(Integer count) {
+        this.count = count;
+    }
+
+    public void addUser(User user) {
+        this.user = user;
+        user.setCart(this);
+    }
+
+    public void addItem(Item item) {
+        items.add(item);
+        item.setCart(this);
+    }
 }
