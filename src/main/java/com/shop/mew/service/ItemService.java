@@ -3,6 +3,7 @@ package com.shop.mew.service;
 import com.shop.mew.domain.item.Item;
 import com.shop.mew.domain.item.ItemRepository;
 import com.shop.mew.web.dto.ItemRequestDto;
+import com.shop.mew.web.dto.ItemResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,25 +28,31 @@ public class ItemService {
     }
 
     @Transactional
-    public void addItem(ItemRequestDto.Register itemRequestDto) {
-        itemRepository.save(Item.builder()
+    public ItemResponseDto addItem(ItemRequestDto.Register itemRequestDto) {
+        Item saved = itemRepository.save(Item.builder()
                 .name(itemRequestDto.getName())
                 .category(itemRequestDto.getCategory())
                 .price(itemRequestDto.getPrice())
                 .count(itemRequestDto.getCount())
                 .img(itemRequestDto.getImg())
                 .build());
+        return new ItemResponseDto(saved.getName(), saved.getCategory(), saved.getPrice(), saved.getCount(),saved.getImg());
     }
 
     @Transactional
-    public Item updateItem (Long id, ItemRequestDto.Update itemRequestDto){
+    public ItemResponseDto updateItem (Long id, ItemRequestDto.Update itemRequestDto){
         Item item = findOne(id);
         item.update(item, itemRequestDto);
-        return item;
+        return new ItemResponseDto(item.getName(),item.getCategory(),item.getPrice(),item.getCount(),item.getImg());
     }
 
     @Transactional
-    public void deleteItem (Long id){
-        itemRepository.deleteById(id);
+    public boolean deleteItem(Long id) {
+        try {
+            itemRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+        return true;
     }
 }

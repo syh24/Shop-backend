@@ -1,29 +1,32 @@
 package com.shop.mew.web.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 @Getter
 public class ItemRequestDto {
 
     @NoArgsConstructor
-    @Data
+    @Getter
+    @Setter
+    @ToString
     public static class Register {
 
-        @NotBlank
+        @ApiModelProperty(value = "상품 이름", required = true)
         private String name;
 
-        @NotBlank
+        @ApiModelProperty (value = "카테고리", required = true)
         private String category;
 
-        @NotNull
+        @ApiModelProperty (value = "가격", required = true)
         private Integer price;
 
-        @NotNull
+        @ApiModelProperty (value = "수량", required = true)
         private Integer count;
 
+        @ApiModelProperty (value = "이미지")
         private String img;
 
         @Builder
@@ -32,6 +35,10 @@ public class ItemRequestDto {
                         Integer price,
                         Integer count,
                         String img) {
+            checkNotNull(name, "name must be provided.");
+            checkNotNull(category, "category must be provided.");
+            checkNotNull(price, "price must be provided.");
+            checkNotNull(count, "count must be provided.");
             this.name = name;
             this.category = category;
             this.price = price;
@@ -40,7 +47,9 @@ public class ItemRequestDto {
         }
     }
 
-    @Data
+    @Getter
+    @Setter
+    @ToString
     @NoArgsConstructor
     public static class Update {
         private String name;

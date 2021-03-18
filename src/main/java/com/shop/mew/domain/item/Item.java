@@ -13,6 +13,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static org.apache.logging.log4j.util.Strings.isNotEmpty;
+
 @Getter
 @NoArgsConstructor
 @Entity
@@ -49,6 +52,10 @@ public class Item extends BaseTimeEntity {
                 Integer price,
                 Integer count,
                 String img) {
+        checkArgument(isNotEmpty(name), "name must be provided.");
+        checkArgument(isNotEmpty(category), "category must be provided.");
+        checkArgument(price > 0, "price must greater than 0");
+        checkArgument(count > 0, "count must greater than 0");
         this.id = id;
         this.name = name;
         this.category = category;
