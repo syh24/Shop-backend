@@ -24,10 +24,10 @@ public class Cart extends BaseTimeEntity {
 
     private Integer count;
 
-    @OneToMany
-    private List<Item> items = new ArrayList<>();
+    @ManyToOne(fetch = LAZY)
+    private Item item;
 
-    @OneToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -35,17 +35,9 @@ public class Cart extends BaseTimeEntity {
     @JoinColumn(name = "orderitem_id")
     private OrderItem orderItem;
 
-    public void orderCount(Integer count) {
-        this.count = count;
-    }
-
-    public void addUser(User user) {
+    public Cart(User user, Item item, Integer count) {
         this.user = user;
-        user.setCart(this);
-    }
-
-    public void addItem(Item item) {
-        items.add(item);
-        item.setCart(this);
+        this.item = item;
+        this.count = count;
     }
 }
