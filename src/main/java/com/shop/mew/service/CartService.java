@@ -6,9 +6,22 @@ import com.shop.mew.domain.item.Item;
 import com.shop.mew.domain.item.ItemRepository;
 import com.shop.mew.domain.user.User;
 import com.shop.mew.domain.user.UserRepository;
+import com.shop.mew.web.dto.CartRequestDto;
+import com.shop.mew.web.dto.CartResponseDto;
+import com.shop.mew.web.dto.ItemResponseDto;
+import com.shop.mew.web.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+
+
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class CartService {
@@ -17,19 +30,48 @@ public class CartService {
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
 
-    public void addCart(Long userId, Long itemId, Integer count) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
-        Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
-        cartRepository.save(createCart(user, item, count));
+    @Transactional
+    public void createCart(CartRequestDto cartRequestDto) {
+        User user = userRepository.findById(cartRequestDto.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+
+        Item item = itemRepository.findById(cartRequestDto.getItemId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+
+        if (item.getCount() < cartRequestDto.getCount()) {
+            throw new IllegalArgumentException("재고가 없습니다.");
+        }
+        cartRepository.save(new Cart(user, item, cartRequestDto.getCount()));
     }
 
-    private Cart createCart(User user, Item item, Integer count) {
-        Cart cart = new Cart();
-        cart.addUser(user);
-        cart.addItem(item);
-        cart.orderCount(count);
-        return cart;
+    @Transactional
+    public HashMap<String, Object> userCartList(Long userId) {
+        HashMap<String, Object> resultMap = new HashMap<>();
+        List<Cart> cartList = cartRepository.findAllByUserId(userId);
+        List<Long> cartIdList = new ArrayList<>();
+        List<CartResponseDto> carts = new ArrayList<>();
+        for (Cart cart : cartList) {
+            carts.add(CartResponseDto.builder()
+                    .id(cart.getId())
+                    .user(new UserResponseDto(cart.getUser().getName(), cart.getUser().getEmail(), cart.getUser().getAddress()))
+                    .item(new ItemResponseDto(cart.getItem().getName(), cart.getItem().getCategory(), cart.getItem().getPrice(), cart.getItem().getCount(), cart.getItem().getImg()))
+                    .itemCount(cart.getCount()).build());
+        }
+        int totalPrice = 0;
+        for (Cart cart : cartList) {
+            cartIdList.add(cart.getId());
+            totalPrice += cart.getCount();
+        }
+        resultMap.put("cartList", carts);
+        resultMap.put("cartIdList", cartIdList);
+        resultMap.put("totalPrice", totalPrice);
+        return resultMap;
     }
+
+    @Transactional
+    public void removeCart(Long id) {
+        cartRepository.delete(cartRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 장바구니 입니다.")));
+    }
+
 }
