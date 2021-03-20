@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -47,6 +48,7 @@ class ItemControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     @DisplayName("상품 등록 테스트")
     void test1() throws Exception {
         ItemRequestDto.Register request = ItemRequestDto.Register.builder()
@@ -72,6 +74,7 @@ class ItemControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     @DisplayName("상품 상세 테스트")
     void test2() throws Exception {
         Item item = createItem();
