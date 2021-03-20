@@ -46,7 +46,8 @@
   
   
 ### ERD
-![image](https://user-images.githubusercontent.com/64251594/111862415-943d1f00-8998-11eb-961d-cee77315a3ad.png)
+![image](https://user-images.githubusercontent.com/64251594/111862928-b2f0e500-899b-11eb-8210-77e19821ad39.png)
+
 
 
 ### Swagger Document
