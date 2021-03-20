@@ -36,4 +36,12 @@ public class CartController {
     public HashMap<String, Object> getCartList(@PathVariable Long userId) {
         return cartService.userCartList(userId);
     }
+
+    @ApiOperation(value = "찜 목록 삭제")
+    @DeleteMapping ("/cart/{id}")
+    public ResponseEntity<String> removeCart(@PathVariable Long id) {
+        cartService.removeCart(id);
+        return ResponseEntity.ok("삭제 되었습니다.");
+    }
+
 }

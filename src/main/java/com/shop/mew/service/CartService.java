@@ -6,6 +6,9 @@ import com.shop.mew.domain.item.Item;
 import com.shop.mew.domain.item.ItemRepository;
 import com.shop.mew.domain.user.User;
 import com.shop.mew.domain.user.UserRepository;
+import com.shop.mew.exception.NotExistCartException;
+import com.shop.mew.exception.NotExistItemException;
+import com.shop.mew.exception.NotExistUserException;
 import com.shop.mew.web.dto.CartRequestDto;
 import com.shop.mew.web.dto.CartResponseDto;
 import com.shop.mew.web.dto.ItemResponseDto;
@@ -18,10 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 
 @Slf4j
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class CartService {
@@ -33,13 +36,13 @@ public class CartService {
     @Transactional
     public void createCart(CartRequestDto cartRequestDto) {
         User user = userRepository.findById(cartRequestDto.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+                .orElseThrow(() -> new NotExistUserException("존재하지 않는 유저입니다."));
 
         Item item = itemRepository.findById(cartRequestDto.getItemId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+                .orElseThrow(() -> new NotExistItemException("존재하지 않는 상품입니다."));
 
         if (item.getCount() < cartRequestDto.getCount()) {
-            throw new IllegalArgumentException("재고가 없습니다.");
+            throw new NotExistItemException("재고가 없습니다.");
         }
         cartRepository.save(new Cart(user, item, cartRequestDto.getCount()));
     }
@@ -60,7 +63,7 @@ public class CartService {
         int totalPrice = 0;
         for (Cart cart : cartList) {
             cartIdList.add(cart.getId());
-            totalPrice += cart.getCount();
+            totalPrice += cart.getCount() * cart.getItem().getPrice();
         }
         resultMap.put("cartList", carts);
         resultMap.put("cartIdList", cartIdList);
@@ -71,7 +74,7 @@ public class CartService {
     @Transactional
     public void removeCart(Long id) {
         cartRepository.delete(cartRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 장바구니 입니다.")));
+                .orElseThrow(() -> new NotExistCartException("존재하지 않는 장바구니 입니다.")));
     }
 
 }
