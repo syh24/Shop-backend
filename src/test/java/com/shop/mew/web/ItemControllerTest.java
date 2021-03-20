@@ -6,6 +6,7 @@ import com.shop.mew.service.ItemService;
 import com.shop.mew.web.dto.ItemRequestDto;
 import com.shop.mew.web.dto.ItemResponseDto;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,14 +16,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -81,7 +82,7 @@ class ItemControllerTest {
         ItemResponseDto response = new ItemResponseDto("testItem", "Book", 10000, 100, "test.jpg");
         given(itemService.findOne(any())).willReturn(item);
 
-        ResultActions actions = mvc.perform(get("/api/v1/item/1")
+        final ResultActions actions = mvc.perform(get("/api/v1/item/1")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                 .content(anyString()));
 
@@ -92,6 +93,23 @@ class ItemControllerTest {
                 .andExpect(jsonPath("$.price").value(response.getPrice()))
                 .andExpect(jsonPath("$.count").value(response.getCount()))
                 .andExpect(jsonPath("$.img").value(response.getImg()));
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    @DisplayName("상품 삭제 테스트")
+    void test3() throws Exception {
+
+        given(itemService.deleteItem(any())).willReturn(true);
+
+        final ResultActions actions = mvc.perform(delete("/api/v1/item/1")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .content(anyString()));
+
+        MvcResult mvcResult = actions.andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertThat(mvcResult.getResponse().getContentAsString()).isEqualTo("true");
     }
 
     private Item createItem() {
