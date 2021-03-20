@@ -3,7 +3,6 @@ package com.shop.mew.domain.user;
 import com.shop.mew.domain.BaseTimeEntity;
 import com.shop.mew.domain.cart.Cart;
 import com.shop.mew.domain.orderitem.OrderItem;
-import com.shop.mew.domain.review.Review;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,18 +41,12 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "user")
-    private Cart cart;
-
     @OneToMany(mappedBy = "user")
-    private List<Review> reviews = new ArrayList<>();
+    private List<Cart> cart;
 
     @OneToMany(mappedBy = "user")
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
 
     public User(String email, String name, String password, String address) {
         this(null, name, email, password, address, null);

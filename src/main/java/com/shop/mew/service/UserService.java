@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.shop.mew.domain.user.Role;
 import com.shop.mew.domain.user.User;
 import com.shop.mew.domain.user.UserRepository;
+import com.shop.mew.exception.NotExistUserException;
 import com.shop.mew.web.dto.UserRequestDto;
 import com.shop.mew.web.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public User add(UserRequestDto userRequestDto) {
+    public User join(UserRequestDto userRequestDto) {
         String password = userRequestDto.getPassword();
         checkNotNull(password,"password must be provided.");
         checkArgument(
@@ -43,22 +44,19 @@ public class UserService {
     }
 
     @Transactional
-    public Boolean login(String email, String password) {
+    public User login(String email, String password) {
         checkNotNull(password, "password must be provided.");
-        try {
-            User user = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
-            user.login(passwordEncoder, password);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+        User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new NotExistUserException("유저가 존재하지 않습니다."));
+        user.login(passwordEncoder, password);
+        return user;
     }
 
+    @Transactional
     public Boolean deleteUser(Long id) {
         try {
             userRepository.delete(userRepository.findById(id)
-                    .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다.")));
+                    .orElseThrow(() -> new NotExistUserException("유저가 존재하지 않습니다.")));
             return true;
         } catch (Exception e) {
             return false;
@@ -71,7 +69,7 @@ public class UserService {
 
     public UserResponseDto getProfile(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+                .orElseThrow(() -> new NotExistUserException("유저가 존재하지 않습니다."));
         return new UserResponseDto(user.getName(), user.getEmail(), user.getAddress());
     }
 

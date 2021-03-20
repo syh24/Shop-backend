@@ -27,26 +27,27 @@ public class UserController {
     private final UserService userService;
 
     @ApiOperation(value = "회원 등록")
-    @PostMapping ("/join")
-    public ResponseEntity<User> addUser(@RequestBody UserRequestDto userRequestDto) {
-        User newUser = userService.add(userRequestDto);
+    @PostMapping
+    public ResponseEntity<User> addUser (@RequestBody UserRequestDto userRequestDto) {
+        User newUser = userService.join(userRequestDto);
         return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "회원 삭제")
-    @PostMapping("/{id}")
-    public ResponseEntity<Boolean> deleteUser(@PathVariable Long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteUser(@PathVariable Long id) {
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
     @ApiOperation (value = "로그인")
     @PostMapping ("/login")
-    public ResponseEntity<?> loginUser (@RequestBody LoginRequest user){
-        return ResponseEntity.ok(userService.login(user.getEmail(), user.getPassword()));
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest user) {
+        userService.login(user.getEmail(), user.getPassword());
+        return ResponseEntity.ok("로그인 성공");
     }
 
     @ApiOperation(value = "이메일 중복확인")
-    @PostMapping(path = "/exists")
+    @PostMapping( "/exists")
     public ResponseEntity<Boolean> checkEmail(
             @RequestBody @ApiParam(value = "example: {\"email\": \"doongji.team@gmail.com\"}") Map<String, String> request
     ) {
@@ -64,8 +65,8 @@ public class UserController {
     }
 
     @ApiOperation(value = "모든 유저 조회")
-    @GetMapping("/list")
-    public List<UserResponseDto> findAllUser(){
+    @GetMapping
+    public List<UserResponseDto> findAllUser() {
         return userService.findAll()
                 .stream().map(u -> new UserResponseDto(u.getName(), u.getEmail(), u.getAddress()))
                 .collect(Collectors.toList());
