@@ -41,7 +41,7 @@ public class UserController {
 
     @ApiOperation (value = "로그인")
     @PostMapping ("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest user) {
+    public ResponseEntity<String> loginUser(@RequestBody LoginRequest user) {
         userService.login(user.getEmail(), user.getPassword());
         return ResponseEntity.ok("로그인 성공");
     }
@@ -63,6 +63,7 @@ public class UserController {
     public UserResponseDto getProfile(@PathVariable Long id){
         return userService.getProfile(id);
     }
+
 
     @ApiOperation(value = "모든 유저 조회")
     @GetMapping
