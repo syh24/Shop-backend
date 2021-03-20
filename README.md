@@ -11,6 +11,7 @@
 * Spring Data JPA
 * Querydsl
 * Spring boot security
+* Swagger UI
 * h2 Database
 
 ### 개발 방식
@@ -46,4 +47,14 @@
   
 ### ERD
 ![image](https://user-images.githubusercontent.com/64251594/111862415-943d1f00-8998-11eb-961d-cee77315a3ad.png)
+
+
+
+### Swagger Document
+
+![image](https://user-images.githubusercontent.com/64251594/111862587-90f66300-8999-11eb-8e6a-e8ae64642658.png)
+![image](https://user-images.githubusercontent.com/64251594/111862594-9653ad80-8999-11eb-90ce-612dc9bed553.png)
+![image](https://user-images.githubusercontent.com/64251594/111862605-9e135200-8999-11eb-8f2d-0bc8299ac205.png)
+![image](https://user-images.githubusercontent.com/64251594/111862612-a3709c80-8999-11eb-8d5b-34bc1216a0ea.png)
+
 
