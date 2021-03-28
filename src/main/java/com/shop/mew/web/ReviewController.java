@@ -7,6 +7,7 @@ import com.shop.mew.service.ReviewService;
 import com.shop.mew.web.dto.ReviewRequestDto;
 import com.shop.mew.web.dto.ReviewResponseDto;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final CartService cartService;
 
+    @ApiOperation(value = "리뷰 등록")
     @PostMapping("/reviews")
     public ResponseEntity<ReviewResponseDto> addReview(@RequestBody ReviewRequestDto request) {
         if (cartService.findCartByUserAndItem(request.getUserId(), request.getItemId())) {
@@ -33,6 +35,7 @@ public class ReviewController {
         }
     }
 
+    @ApiOperation(value = "모든 리뷰 조회")
     @GetMapping("/reviews")
     public List<ReviewResponseDto> getAllReview() {
         return reviewService.findAllReview()
