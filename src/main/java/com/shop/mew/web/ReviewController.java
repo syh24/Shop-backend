@@ -31,7 +31,7 @@ public class ReviewController {
             Review review = reviewService.writeReview(request);
             return ResponseEntity.ok(ReviewResponseDto.builder().content(review.getContent()).rate(review.getRate()).build());
         } else {
-            throw new NotExistOrderException("주문하시지 않은 상품입니다.");
+            throw new NotExistOrderException("주문하지 않은 상품입니다.");
         }
     }
 
