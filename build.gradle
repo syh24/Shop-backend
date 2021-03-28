@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'commons-io:commons-io:2.8.0'
 
+	//querydsl 추가
 	implementation 'com.querydsl:querydsl-jpa'
 
 	// swagger 라이브러리 추가
