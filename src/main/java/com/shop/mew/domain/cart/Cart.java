@@ -24,6 +24,8 @@ public class Cart extends BaseTimeEntity {
 
     private Integer count;
 
+    private Boolean isOrdered;
+
     @ManyToOne(fetch = LAZY)
     private Item item;
 

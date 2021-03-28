@@ -2,7 +2,6 @@ package com.shop.mew.service;
 
 import com.shop.mew.domain.orderitem.OrderItem;
 import com.shop.mew.domain.orderitem.OrderItemRepository;
-import com.shop.mew.domain.user.UserRepository;
 import com.shop.mew.exception.NotExistOrderException;
 import com.shop.mew.web.dto.OrderItemResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,6 @@ import java.util.List;
 @Service
 public class OrderItemService {
 
-    private final UserRepository userRepository;
     private final OrderItemRepository orderItemRepository;
 
     public OrderItemResponseDto getOrderDetails(Long orderId) {
@@ -36,5 +34,7 @@ public class OrderItemService {
         resultMap.put("orderItemList", orderItems);
         return resultMap;
     }
+
+
 
 }

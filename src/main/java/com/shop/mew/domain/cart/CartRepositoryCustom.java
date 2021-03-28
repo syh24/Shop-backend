@@ -4,5 +4,5 @@ import java.util.Optional;
 
 public interface CartRepositoryCustom {
 
-    Optional<Cart> findCartByUser(Long id);
+    Optional<Cart> findCartByUserAndItem(Long userId, Long itemId);
 }

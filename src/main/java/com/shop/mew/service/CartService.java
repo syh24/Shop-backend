@@ -77,4 +77,10 @@ public class CartService {
                 .orElseThrow(() -> new NotExistCartException("존재하지 않는 장바구니 입니다.")));
     }
 
+    public Boolean findCartByUserAndItem(Long userId, Long itemId) {
+        Cart cart = cartRepository.findCartByUserAndItem(userId, itemId)
+                .orElseThrow(() -> new NotExistCartException("존재하지 않는 장바구니 입니다."));
+        return cart.getIsOrdered();
+    }
+
 }
