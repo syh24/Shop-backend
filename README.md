@@ -11,6 +11,7 @@
 * Spring Data JPA
 * Querydsl
 * Spring boot security
+* Swagger UI
 * h2 Database
 
 ### 개발 방식
@@ -18,30 +19,48 @@
 
 ### 기능
 * 회원
-  * 회원 인증
-    * 로그인, 로그아웃 jwt 토큰을 통한 인증방식
-      * jwt 토큰의 만료시간은 10시간
-  * 회원 조회
+  * 회원 가입 (권한 X)
+  * 회원 조회 (admin 권한)
     * 프로필 조회 (상세 조회)
-  * 회원 수정
-    * 주소 변경 가능
-
+    * 모든 회원 조회
+  * 회원 수정 (user 권한)
+  * 회원 삭제 (user 권한)
+  * 이메일 중복 확인 (권한 X)
+    
+    
 * 상품
-  * 상품 조회 (인증 필요x)
-    * 한 페이지당 5개 단위의 페이징 처리
+  * 모든 상품 조회 (인증 필요x)
   * 상품 상세 (인증 필요x)
-  * 상품 추가 (admin 권한에서만 허용)
-  * 상품 삭제 (admin 권한에서만 허용)
-  * 상품 할인
-    * 상품(one) to 상품할인(many)
-    * 유효기간이 유효한 할인 리스트들 중 가장 할인률이 높은 리스트를 선택하는 로직
-  * 상품 리뷰
-    * 상품(one) to 리뷰(many)
-    * 상품명, 상품평점, 리뷰 본문내용 등의 정보 포함
-    * 리뷰는 해당 상품을 구매한 유저만 작성 가능
-  * 상품 평점
-    * 상품을 구매한 유저들의 리뷰에 적용된 평점을 평균내어 저장
-      * 상품 리뷰 추가 시 평균내어 상품 테이블에 저장
+  * 상품 등록 (admin 권한)
+  * 상품 수정 (admin 권한)
+  * 상품 삭제 (admin 권한)
 
+* 찜 목록
+  * 찜 목록 추가 (user 권한)
+  * 찜 목록 조회 (user 권한)
+  * 찜 목록 삭제 (user 권한)
+
+* 상품 주문
+  * 주문 상세 (user 권한)
+  * 전체 주문 조회 (user 권한)
+
+
+### 추가해야할 내용
+  * Order 서버 따로 만들어서 Kafka로 통신(?)
+  * 모든 조회 로직에 페이징 처리
+  * 결제 시스템 도입 
+  
+  
 ### ERD
-![image](https://user-images.githubusercontent.com/64251594/111596653-b99f2100-8810-11eb-9f6b-637d57a2c7c9.png)
+![image](https://user-images.githubusercontent.com/64251594/112092061-0c465780-8bda-11eb-932d-7d4bfb4d3314.png)
+
+
+
+### Swagger Document
+
+![image](https://user-images.githubusercontent.com/64251594/111862587-90f66300-8999-11eb-8e6a-e8ae64642658.png)
+![image](https://user-images.githubusercontent.com/64251594/111862594-9653ad80-8999-11eb-90ce-612dc9bed553.png)
+![image](https://user-images.githubusercontent.com/64251594/111862605-9e135200-8999-11eb-8f2d-0bc8299ac205.png)
+![image](https://user-images.githubusercontent.com/64251594/111862612-a3709c80-8999-11eb-8d5b-34bc1216a0ea.png)
+
+
