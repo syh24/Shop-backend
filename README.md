@@ -44,6 +44,10 @@
   * 주문 상세 (user 권한)
   * 전체 주문 조회 (user 권한)
 
+* 리뷰
+  * 리뷰 등록 (user 권한)
+  * 전체 리뷰 조회 (인증 필요 x)
+
 
 ### 추가해야할 내용
   * Order 서버 따로 만들어서 Kafka로 통신(?)
@@ -62,5 +66,7 @@
 ![image](https://user-images.githubusercontent.com/64251594/111862594-9653ad80-8999-11eb-90ce-612dc9bed553.png)
 ![image](https://user-images.githubusercontent.com/64251594/111862605-9e135200-8999-11eb-8f2d-0bc8299ac205.png)
 ![image](https://user-images.githubusercontent.com/64251594/111862612-a3709c80-8999-11eb-8d5b-34bc1216a0ea.png)
+![image](https://user-images.githubusercontent.com/64251594/112751210-aefe3c00-9007-11eb-8142-529ee38e874d.png)
+
 
 
